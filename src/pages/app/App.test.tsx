@@ -28,7 +28,6 @@ describe('App', () => {
 
     fireEvent.change(cityInputNode, { target: { value: 'random city' } });
     await waitFor(() => expect(screen.getByText('Searching forecasts...')).toBeInTheDocument());
-    await waitFor(() => expect(screen.getByText('No city found with that name!')).toBeInTheDocument());
 
     fireEvent.change(cityInputNode, { target: { value: '' } });
     await waitFor(() => expect(screen.getByText("Please input a city name to discover it's forecast!")).toBeInTheDocument());
@@ -51,7 +50,7 @@ describe('App', () => {
         }
       ],
     };
-    mockedAxios.get.mockImplementationOnce(() => Promise.resolve(response));
+    mockedAxios.get.mockImplementation(() => Promise.resolve(response));
 
     render(<App />);
 
@@ -66,11 +65,11 @@ describe('App', () => {
       expect(screen.getByText('Thursday')).toBeInTheDocument();
       expect(screen.getByText('Friday')).toBeInTheDocument();
 
-      expect(screen.getByText('Min: 124')).toBeInTheDocument();
-      expect(screen.getByText('Min: 125')).toBeInTheDocument();
+      expect(screen.getByText('124 °C')).toBeInTheDocument();
+      expect(screen.getByText('125 °C')).toBeInTheDocument();
 
-      expect(screen.getByText('Max: 240')).toBeInTheDocument();
-      expect(screen.getByText('Max: 241')).toBeInTheDocument();
+      expect(screen.getByText('240 °C')).toBeInTheDocument();
+      expect(screen.getByText('241 °C')).toBeInTheDocument();
     });
   });
 })

@@ -1,4 +1,4 @@
-## NAB coding challenge
+## NAB Coding Challenge
 
 Hello!
 
@@ -30,8 +30,11 @@ To run the tests, please enter:
 
 ## Future Improvements
 
-- Separate server and client folders with their own `package.json` files and `src` folder structures so it's not as messy.
-- Implement some kind of GraphQL server for retrieving the weather data.
-- Extend tests to the server, and provide more unit tests
-- Create integration testing
-- Sufficient mobile responsiveness
+- Create seperate `package.json` and `src` folders for client and server code
+- Implement some kind of GraphQL server for retrieving the weather data
+- Write server tests, as well as integration tests
+- Extend the UI tests, they're pretty barebones
+- Implement test coverage, along with linting and git hooks
+- Mobile responsiveness
+- Make it look waaayyyyyy nicer
+

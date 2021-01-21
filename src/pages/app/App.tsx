@@ -11,9 +11,9 @@ const App: React.FC = () => {
   const [ weatherForecasts, setWeatherForecasts ] = useState<WeatherForecast[]>([]);
 
   const getSearchData = async (
-    searchTeam: string,
+    searchTerm: string,
   ): Promise<void> => {
-    const searchDataURL = `http://localhost:7777/weather-search?location=${searchTeam}`;
+    const searchDataURL = `http://localhost:7777/weather-search?location=${searchTerm}`;
     const response = await axios.get(searchDataURL);
 
     setWeatherForecasts(response.data);
@@ -21,25 +21,21 @@ const App: React.FC = () => {
   }
 
   const getSearchDataDebounce = useCallback(
-    debounce(async () => {
-      if (searchValue) {
-        setLoading(true);
-        await getSearchData(searchValue);
-      } else {
-        setWeatherForecasts([]);
-        setLoading(false);
-      }
-      await getSearchData(searchValue)
-    }, 250),
+    debounce(async (searchValueParam) => getSearchData(searchValueParam), 250),
     []
   );
 
   useEffect(() => {
-    getSearchDataDebounce();
+    if (searchValue) {
+      setLoading(true);
+      getSearchDataDebounce(searchValue);
+    } else {
+      setWeatherForecasts([]);
+      setLoading(false);
+    }
   }, [getSearchDataDebounce, setWeatherForecasts, setLoading, searchValue]);
 
   const hasNotInputCityName = !loading && weatherForecasts.length === 0 && !searchValue;
-  const hasNotFoundCity = !loading && weatherForecasts.length === 0 && searchValue;
   const hasFoundCity = !loading && weatherForecasts.length > 0;
 
   return (
@@ -62,10 +58,6 @@ const App: React.FC = () => {
           <p>i.e. London, New York etc.</p>
         </>
       )}
-      {hasNotFoundCity && (
-        <p>No city found with that name!</p>
-      )}
-
       {hasFoundCity && (
         <div className='weather__forecasts__list'>
           {weatherForecasts.map(

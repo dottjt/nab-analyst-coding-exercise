@@ -26,14 +26,13 @@ const sanitiseWeather = (consolidatedWeather: WeatherForecastRaw[]): WeatherFore
 const app = new Koa();
 const router = new Router();
 
+const META_WEATHER_API_BASE_URL = 'https://www.metaweather.com/api';
+
 router.get('/weather-search', async (ctx: Context) => {
   try {
     const queryStringLocation: string = ctx.query.location || '';
 
-    if (queryStringLocation) {
-      
-    }
-    const locationSearchURL: string = `https://www.metaweather.com/api/location/search/?query=${queryStringLocation}`;
+    const locationSearchURL: string = `${META_WEATHER_API_BASE_URL}/location/search/?query=${queryStringLocation}`;
     const locationResponse = await axios.get(locationSearchURL);
 
     const relevantCity: WeatherLocation = doesCityMatch(queryStringLocation, locationResponse.data);
@@ -41,7 +40,7 @@ router.get('/weather-search', async (ctx: Context) => {
     if (relevantCity) {
       const cityWoeid: number = relevantCity.woeid;
 
-      const weatherLocationURL: string = `https://www.metaweather.com/api/location/${cityWoeid}`;
+      const weatherLocationURL: string = `${META_WEATHER_API_BASE_URL}/location/${cityWoeid}`;
       const weatherResponse = await axios.get(weatherLocationURL);
 
       const weatherForecast: WeatherForecast[] = sanitiseWeather(weatherResponse.data.consolidated_weather);
