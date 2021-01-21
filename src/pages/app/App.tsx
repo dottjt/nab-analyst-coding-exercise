@@ -31,7 +31,6 @@ const App: React.FC = () => {
       getSearchDataDebounce(searchValue);
     } else {
       setWeatherForecasts([]);
-      setLoading(false);
     }
   }, [getSearchDataDebounce, setWeatherForecasts, setLoading, searchValue]);
 

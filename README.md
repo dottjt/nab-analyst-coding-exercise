@@ -2,7 +2,7 @@
 
 Hello!
 
-My name is Julius. Thank you for looking into my code! I basically spent a few days hacking it together, I hope you think it's awesome. :grin:
+My name is Julius. Thank you for looking into my code! I basically spent a few hours hacking it together, I hope you think it's awesome. :grin:
 
 ## Structure
 
@@ -37,4 +37,6 @@ To run the tests, please enter:
 - Implement test coverage, along with linting and git hooks
 - Mobile responsiveness
 - Make it look waaayyyyyy nicer
-
+- I know some of the async behaviour is a little flakey, but I didn't have time to look into it
+  - I'm guessing the solution for this would be something like a `fetch_status` enum, as opposed to checking for just if it's loading/not_loading + data/no_data, which doesn't tell us much about what's happening.
+  - So like `NOT_YET_FETCHED`, `IS_FETCHING`, `FETCH_SUCCESS`. `FETCH_FAILED` etc.

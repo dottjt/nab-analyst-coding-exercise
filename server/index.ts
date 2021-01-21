@@ -45,7 +45,7 @@ router.get('/weather-search', async (ctx: Context) => {
 
       const weatherForecast: WeatherForecast[] = sanitiseWeather(weatherResponse.data.consolidated_weather);
 
-      console.log(weatherForecast);
+      console.log(`weather match found for: ${queryStringLocation}`);
 
       ctx.body = weatherForecast;
     } else {
