@@ -8,7 +8,7 @@ My name is Julius. Thank you for looking into my code! I basically spent a few h
 
 Here are the main folders:
   - `src` - UI application source code
-  - `public` - UI application static files
+  - `tests` - UI application test code
   - `server` - server application source code
 
 ## Setup
@@ -19,10 +19,19 @@ In the root directory run:
 
 ## Running
 
-To run the application, please enter:
-  - `npm start` with relevant arguments
+To run the application, please enter in two separate terminals:
+  - `npm run start-client` - this will start the client
+  - `npm run start-server` - this will start the server
+  - Once they are both up and running, please head to `http://localhost:3000/`
+
+To run the tests, please enter:
+  - `npm test`
+  - You may need to install watchman onto your machine. I know I had issues with it for whatever reason i.e. `brew install watchman` (assuming you have brew installed)
 
 ## Future Improvements
 
-- Separate server and client folders with their own `package.json` files and `src` folder structure.
-- Write tests
+- Separate server and client folders with their own `package.json` files and `src` folder structures so it's not as messy.
+- Implement some kind of GraphQL server for retrieving the weather data.
+- Extend tests to the server, and provide more unit tests
+- Create integration testing
+- Sufficient mobile responsiveness

@@ -4,33 +4,66 @@ import cors from '@koa/cors';
 import axios from 'axios';
 import bodyParser from 'koa-body';
 
-const main = async () => {
-  const app = new Koa();
-  const router = new Router();
+import {
+  WeatherForecast,
+  WeatherForecastRaw,
+  WeatherLocation
+} from './serverTypes';
 
-  router.get('/weather-search', async (ctx: Context) => {
-    try {
-      console.log(ctx.params);
+const doesCityMatch = (queryStringLocation: string, responseLocations: WeatherLocation[]) => (
+  responseLocations.find((location: WeatherLocation) => location.title.toLowerCase() === queryStringLocation)
+);
 
-      const response = await axios.get(
-        `https://www.metaweather.com/api/location/search/?query=${ctx.params.location}`
-      );
+const sanitiseWeather = (consolidatedWeather: WeatherForecastRaw[]): WeatherForecast[]  => (
+  consolidatedWeather.map((weather: WeatherForecastRaw) => ({
+    id: weather.id,
+    applicable_date: weather.applicable_date,
+    min_temp: weather.min_temp,
+    max_temp: weather.max_temp,
+  }))
+);
 
-      console.log(response);
+const app = new Koa();
+const router = new Router();
+
+router.get('/weather-search', async (ctx: Context) => {
+  try {
+    const queryStringLocation: string = ctx.query.location || '';
+
+    if (queryStringLocation) {
       
-      ctx.status = 200;
-      ctx.body = { response };
-    } catch(e) {
-      ctx.status = 404;
     }
-  });
+    const locationSearchURL: string = `https://www.metaweather.com/api/location/search/?query=${queryStringLocation}`;
+    const locationResponse = await axios.get(locationSearchURL);
 
+    const relevantCity: WeatherLocation = doesCityMatch(queryStringLocation, locationResponse.data);
+
+    if (relevantCity) {
+      const cityWoeid: number = relevantCity.woeid;
+
+      const weatherLocationURL: string = `https://www.metaweather.com/api/location/${cityWoeid}`;
+      const weatherResponse = await axios.get(weatherLocationURL);
+
+      const weatherForecast: WeatherForecast[] = sanitiseWeather(weatherResponse.data.consolidated_weather);
+
+      console.log(weatherForecast);
+
+      ctx.body = weatherForecast;
+    } else {
+      ctx.body = [];
+    }
+  } catch(e) {
+    ctx.status = 404;
+  }
+});
+
+const main = async () => {
   app
     .use(bodyParser())
     .use(cors())
     .use(router.routes())
     .use(router.allowedMethods())
     .listen(7777)
-}
+};
 
 main();

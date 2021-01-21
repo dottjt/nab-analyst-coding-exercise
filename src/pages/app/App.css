@@ -1,0 +1,39 @@
+.app {
+  margin: 4rem;
+
+}
+
+.app p {
+  margin-bottom: 0rem;
+}
+
+.weather__forecast__input {
+  border: 3px solid black;
+  border-radius: 2px;
+
+  padding: 1rem;
+
+  font-size: 1.6rem;
+}
+
+.temp__label {
+  min-width: 2rem;
+}
+
+.weather__forecasts__list {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.weather__forecast__item {
+  border: 3px solid black;
+  border-radius: 1rem;
+
+  min-width: 7rem;
+
+  margin-right: 0.5rem;
+  padding: 2rem;
+}
+
