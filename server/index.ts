@@ -51,6 +51,7 @@ router.get('/weather-search', async (ctx: Context) => {
       ctx.body = [];
     }
   } catch(e) {
+    console.log(e);
     ctx.status = 404;
   }
 });

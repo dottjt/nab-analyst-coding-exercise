@@ -4,6 +4,8 @@ Hello!
 
 My name is Julius. Thank you for looking into my code! I basically spent a few hours hacking it together, I hope you think it's awesome. :grin:
 
+![Alt text](app_screenshot.png "App Screenshot")
+
 ## Structure
 
 Here are the main folders:
@@ -39,3 +41,4 @@ To run the tests, please enter:
 - Make it look waaayyyyyy nicer
 - I know some of the async behaviour is a little flakey, but I didn't have time to look into it
   - An easy fix is to simply implement a button to fetch the data which disables when you click on it, instead of it fetching in real-time since `useEffect` isn't async, but I thought it being in real-time would be cooler.
+  - Implementing something like GraphQL or redux with async state management would have probably solved it as well.
