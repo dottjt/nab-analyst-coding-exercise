@@ -2,7 +2,7 @@
 
 Hello!
 
-My name is Julius. Thank you for looking into my code! I basically spent a few hours hacking it together, I hope you think it's awesome. :grin:
+My name is Julius. Thank you for looking into my code! I basically spent a few days hacking it together, I hope you think it's awesome. :grin:
 
 ## Structure
 
@@ -19,9 +19,9 @@ In the root directory run:
 
 ## Running
 
-To run the application, please enter in two separate terminals:
-  - `npm run start-client` - this will start the client
-  - `npm run start-server` - this will start the server
+To run the application, please enter into two separate terminals:
+  - `npm run start:client` - this will start the client
+  - `npm run start:server` - this will start the server
   - Once they are both up and running, please head to `http://localhost:3000/`
 
 To run the tests, please enter:

@@ -96,8 +96,8 @@ const WeatherForecastItem: React.FC<{ weatherForecast: WeatherForecast }> = ({ w
   return (
     <div className='weather__forecast__item'>
       <h2>{weatherDayName}</h2>
-      <div><span className='temp__label'>Min:</span> {minTemp}</div>
-      <div><span className='temp__label'>Max:</span> {maxTemp}</div>
+      <div><span className='temp__label'>Min:</span> {minTemp} °C</div>
+      <div><span className='temp__label'>Max:</span> {maxTemp} °C</div>
     </div>
   );
 }
