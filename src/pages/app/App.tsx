@@ -5,19 +5,31 @@ import debounce from 'lodash.debounce';
 
 import { WeatherForecast } from '../../util/types';
 
+enum FetchStatus {
+  NOT_YET_FETCHED="NOT_YET_FETCHED",
+  IS_FETCHING="IS_FETCHING",
+  FETCH_SUCCESS="FETCH_SUCCESS",
+  FETCH_FAILED="FETCH_FAILED",
+}
+
 const App: React.FC = () => {
   const [ searchValue, setSearchValue ] = useState<string>('');
-  const [ loading, setLoading ] = useState<boolean>(false);
+  const [ fetchStatus, setFetchStatus ] = useState<FetchStatus>(FetchStatus.NOT_YET_FETCHED);
   const [ weatherForecasts, setWeatherForecasts ] = useState<WeatherForecast[]>([]);
 
   const getSearchData = async (
     searchTerm: string,
   ): Promise<void> => {
+    console.log(searchTerm);
     const searchDataURL = `http://localhost:7777/weather-search?location=${searchTerm}`;
     const response = await axios.get(searchDataURL);
 
-    setWeatherForecasts(response.data);
-    setLoading(false);
+    if (response.data.length > 0) {
+      setWeatherForecasts(response.data);
+      setFetchStatus(FetchStatus.FETCH_SUCCESS);
+    } else {
+      setFetchStatus(FetchStatus.FETCH_FAILED);
+    }
   }
 
   const getSearchDataDebounce = useCallback(
@@ -27,15 +39,13 @@ const App: React.FC = () => {
 
   useEffect(() => {
     if (searchValue) {
-      setLoading(true);
+      setFetchStatus(FetchStatus.IS_FETCHING);
+
       getSearchDataDebounce(searchValue);
     } else {
       setWeatherForecasts([]);
     }
-  }, [getSearchDataDebounce, setWeatherForecasts, setLoading, searchValue]);
-
-  const hasNotInputCityName = !loading && weatherForecasts.length === 0 && !searchValue;
-  const hasFoundCity = !loading && weatherForecasts.length > 0;
+  }, [getSearchDataDebounce, setWeatherForecasts, setFetchStatus, searchValue]);
 
   return (
     <div className='app'>
@@ -48,16 +58,19 @@ const App: React.FC = () => {
         onChange={(e) => setSearchValue(e.target.value) }
       />
 
-      {loading && (
+      {fetchStatus === FetchStatus.IS_FETCHING && (
         <p>Searching forecasts...</p>
       )}
-      {hasNotInputCityName && (
+      {(fetchStatus === FetchStatus.NOT_YET_FETCHED) && (
         <>
           <p>Please input a city name to discover it's forecast!</p>
           <p>i.e. London, New York etc.</p>
         </>
       )}
-      {hasFoundCity && (
+      {fetchStatus === FetchStatus.FETCH_FAILED && (
+        <p>No city found with that query.</p>
+      )}
+      {fetchStatus === FetchStatus.FETCH_SUCCESS && (
         <div className='weather__forecasts__list'>
           {weatherForecasts.map(
             (weatherForecast: WeatherForecast) => (

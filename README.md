@@ -38,5 +38,4 @@ To run the tests, please enter:
 - Mobile responsiveness
 - Make it look waaayyyyyy nicer
 - I know some of the async behaviour is a little flakey, but I didn't have time to look into it
-  - I'm guessing the solution for this would be something like a `fetch_status` enum, as opposed to checking for just if it's loading/not_loading + data/no_data, which doesn't tell us much about what's happening.
-  - So like `NOT_YET_FETCHED`, `IS_FETCHING`, `FETCH_SUCCESS`. `FETCH_FAILED` etc.
+  - An easy fix is to simply implement a button to fetch the data which disables when you click on it, instead of it fetching in real-time since `useEffect` isn't async, but I thought it being in real-time would be cooler.

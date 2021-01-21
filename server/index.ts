@@ -35,7 +35,7 @@ router.get('/weather-search', async (ctx: Context) => {
     const locationSearchURL: string = `${META_WEATHER_API_BASE_URL}/location/search/?query=${queryStringLocation}`;
     const locationResponse = await axios.get(locationSearchURL);
 
-    const relevantCity: WeatherLocation = doesCityMatch(queryStringLocation, locationResponse.data);
+    const relevantCity: WeatherLocation | undefined = doesCityMatch(queryStringLocation, locationResponse.data);
 
     if (relevantCity) {
       const cityWoeid: number = relevantCity.woeid;
@@ -44,7 +44,6 @@ router.get('/weather-search', async (ctx: Context) => {
       const weatherResponse = await axios.get(weatherLocationURL);
 
       const weatherForecast: WeatherForecast[] = sanitiseWeather(weatherResponse.data.consolidated_weather);
-
       console.log(`weather match found for: ${queryStringLocation}`);
 
       ctx.body = weatherForecast;
